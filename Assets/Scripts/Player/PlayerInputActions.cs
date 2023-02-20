@@ -12,10 +12,12 @@ public class PlayerInputActions : MonoBehaviour
     InputAction moveAction;
     Vector2 direction;
     List<IInteractable> interactingObjects = new();
+    Inventory inventory;
 
     void Awake()
     {
         moveAction = GetComponent<PlayerInput>().actions["Move"];
+        inventory = FindObjectOfType<Inventory>(true);
     }
 
     private void Update()
@@ -32,6 +34,11 @@ public class PlayerInputActions : MonoBehaviour
     {
         direction = moveAction.ReadValue<Vector2>();
         transform.position += new Vector3(direction.x, direction.y, 0) * movementSpeed * Time.deltaTime;
+    }
+
+    public void TriggerInventory(InputAction.CallbackContext context)
+    {
+        inventory.OpenInventory();
     }
 
     public void TriggerInteraction(InputAction.CallbackContext context)
