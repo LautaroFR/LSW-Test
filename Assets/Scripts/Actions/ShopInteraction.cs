@@ -4,20 +4,23 @@ using UnityEngine;
 
 public class ShopInteraction : MonoBehaviour, IInteractable
 {
+    public GameObject GetGameObject() => gameObject;
+   
     bool isInteracting = false;
     Inventory playerInventory;
-
-    public GameObject GetGameObject() => gameObject;
+    Shop shopView;
 
     void Awake()
     {
         playerInventory = FindObjectOfType<Inventory>(true);
+        shopView = FindObjectOfType<Shop>(true);
     }
 
     public void OnEndInteraction()
     {
         isInteracting = false;
         playerInventory.CloseInventory();
+        shopView.CloseShop();
         Debug.Log($"End interaction with {name}");
     }
 
@@ -27,6 +30,7 @@ public class ShopInteraction : MonoBehaviour, IInteractable
         {
             isInteracting = true;
             playerInventory.OpenInventory();
+            shopView.OpenShop();
             Debug.Log($"Begin interaction with {name}");
         }
     }
