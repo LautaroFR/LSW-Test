@@ -151,7 +151,7 @@ MonoBehaviour:
   Type: 1
   ItemName: Heavy Armor
   ItemDescription: This is a Heavy Armor
-  Color: {r: 0, g: 0, b: 0, a: 0}
+  Color: {r: 0.8301887, g: 0.08928439, b: 0.08928439, a: 1}
   Icon: {fileID: 8413474933751750446}
 --- !u!1 &852689774442610334
 GameObject:

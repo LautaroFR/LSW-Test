@@ -13,7 +13,7 @@ public class ShopInteraction : MonoBehaviour, IInteractable
     void Awake()
     {
         playerInventory = FindObjectOfType<Inventory>(true);
-        shopView = FindObjectOfType<Shop>(true);
+        shopView = GetComponent<Shop>();
     }
 
     public void OnEndInteraction()

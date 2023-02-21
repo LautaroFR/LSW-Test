@@ -151,7 +151,7 @@ MonoBehaviour:
   Type: 0
   ItemName: Sword
   ItemDescription: This is a long sword
-  Color: {r: 0, g: 0, b: 0, a: 0}
+  Color: {r: 0.092701994, g: 0.092701994, b: 0.7924528, a: 1}
   Icon: {fileID: 8413474933751750446}
 --- !u!1 &852689774442610334
 GameObject:

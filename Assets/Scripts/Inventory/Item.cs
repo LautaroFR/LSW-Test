@@ -17,24 +17,24 @@ public class Item : MonoBehaviour
 
     public Image Icon;
 
+    Inventory playerInventory;
+    Shop shopSeller;
+    bool inInventory = false;
 
-    Inventory inventory;
-    Shop shop;
-    private void Start()
+    public void SetShop(Shop shop) => shopSeller = shop;
+
+    public void SetInventory(Inventory inventory)
     {
-        inventory = FindObjectOfType<Inventory>();
-        shop = FindObjectOfType<Shop>();
+        playerInventory = inventory;
+        inInventory = true;
     }
-        
+
     public void OnSelectItem()
     {
-        var shopItem = GetComponentInParent<Shop>();
-
-        if (shopItem != null)
-            shop.OnSelectItem(this);
-
+        if (inInventory)
+            playerInventory.OnSelectItem(this);
         else
-            inventory.OnSelectItem(this);
+            shopSeller.OnSelectItem(this);
     }
 }
 

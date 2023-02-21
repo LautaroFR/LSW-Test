@@ -5,46 +5,29 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static UnityEditor.Progress;
+using System.Linq;
 
 public class Inventory : MonoBehaviour
 {
     public int Gold;
-    
+
     public GridLayoutGroup Grid;
-    
+
     public TextMeshProUGUI ItemNameTxt;
     public TextMeshProUGUI ItemDescrTxt;
     public TextMeshProUGUI GoldTxt;
 
-    public Image ArmorImg;
-    public Image HelmetImg;
-    public Image WeaponImg;
+    [SerializeField] List<ItemSlot> equipmentSlots;
 
-    bool isOpen = false;
-    
     Item selectedItem;
-    Item equippedArmor;
-    Item equippedWeapon;
-    Item equippedHelmet;
-    
-    PlayerView playerView;
+    List<Item> equippedItems = new();
+    List<Item> itemsOnInventory = new();
+    bool isOpen = false;
 
-    public List<Item> ItemsOnInventory = new();
-
-    private void Awake()
-    {
-        playerView = FindObjectOfType<PlayerView>();
-    }
-
-    private void Start()
-    {
-        UpdateInventoryView();
-    }
     public void OpenInventory()
     {
         isOpen = true;
         gameObject.SetActive(isOpen);
-        UpdateInventoryView();
     }
 
     public void CloseInventory()
@@ -61,41 +44,23 @@ public class Inventory : MonoBehaviour
 
     public void EquipSelectedItem()
     {
-        switch (selectedItem.Type)
-        {
-            case ItemType.Weapon:
-                //if equiped is not null, return it to the list
-                if (equippedWeapon != null)
-                    ItemsOnInventory.Add(equippedWeapon);
+        if (selectedItem == null)
+            return;
 
-                equippedWeapon = selectedItem;
-                playerView.weaponView.color = equippedWeapon.Color;
-                WeaponImg.sprite = equippedWeapon.Icon.sprite;
-                ItemsOnInventory.Remove(equippedWeapon);
-                UpdateInventoryView();
-                //remove new equiped item from the list
-                break;
-            case ItemType.Armor:
-                if (equippedArmor != null)
-                    ItemsOnInventory.Add(equippedArmor);
+        var currentlyEquippedSlot = equippedItems.Where(x => x.Type == selectedItem.Type);
+        if (currentlyEquippedSlot.Any())
+            itemsOnInventory.Add(currentlyEquippedSlot.First());
 
-                equippedArmor = selectedItem;
-                playerView.armorView.color = equippedArmor.Color;
-                ArmorImg.sprite = equippedArmor.Icon.sprite;
-                ItemsOnInventory.Remove(equippedArmor);
-                break;
-            case ItemType.Helmet:
-                if (equippedHelmet != null)
-                    ItemsOnInventory.Add(equippedHelmet);
+        equippedItems.Add(selectedItem);
+        var itemSlot = equipmentSlots.Where(x => x.slotType == selectedItem.Type).First();
+        itemSlot.playerViewSprite.color = selectedItem.Color;//cambiar esto, en lugar de cambiar el color, cambiar el sprite por la imagen del item.
 
-                equippedHelmet = selectedItem;
-                playerView.helmetView.color = equippedHelmet.Color;
-                HelmetImg.sprite = equippedHelmet.Icon.sprite;
-                ItemsOnInventory.Remove(equippedHelmet);
-                break;
-            default:
-                break;
-        }
+        //en lugar de destruir y cambiar el color, cambiar el parent por "itemSlot.inventorySlotImage" y ponerlo en la posicon "0". 
+        Destroy(selectedItem.gameObject);
+        itemSlot.inventorySlotImage.color = selectedItem.Color;
+        //
+
+        itemsOnInventory.Remove(selectedItem);
     }
 
     void UpdateDescription(Item item)
@@ -104,19 +69,12 @@ public class Inventory : MonoBehaviour
         ItemDescrTxt.text = item.ItemDescription;
     }
 
-    public void UpdateInventoryView()
+    public void AddItem(Item item)
     {
-        ClearInventory();
-        
-        foreach (var item in ItemsOnInventory)
-            Instantiate(item, Grid.transform);
-
-        GoldTxt.text = Gold.ToString();
+        var newItem = Instantiate(item, Grid.transform);
+        itemsOnInventory.Add(newItem);
+        newItem.SetInventory(this);
     }
 
-    public void ClearInventory()
-    {
-        foreach (Transform item in Grid.transform)
-            GameObject.Destroy(item.gameObject);
-    }
+    public void RefreshGoldValue() => GoldTxt.text = Gold.ToString();
 }

@@ -10,26 +10,44 @@ public class Shop : MonoBehaviour
     public TextMeshProUGUI ItemDescrTxt;
     public TextMeshProUGUI ItemPriceTxt;
 
-    bool enoughGold;
+    [SerializeField] Transform itemsContainer;
+
+    public List<Item> shopContent;
+
     bool isOpen = false;
     Item selectedItem;
     Inventory inventory;
+    ShopCanvas shopCanvas;
 
     private void Awake()
     {
-        inventory = FindObjectOfType<Inventory>();
+        inventory = FindObjectOfType<Inventory>(true);
+        shopCanvas = FindObjectOfType<ShopCanvas>(true);
     }
+
     public void OpenShop()
     {
         isOpen = true;
-        gameObject.SetActive(isOpen);
+        shopCanvas.gameObject.SetActive(isOpen);
+        
+        foreach (var item in shopContent)
+        {
+            var shopItem = Instantiate(item, itemsContainer);
+            shopItem.SetShop(this);
+        }
+
+        shopCanvas.SetShop(this);
     }
 
     public void CloseShop()
     {
         isOpen = false;
-        gameObject.SetActive(isOpen);
+        shopCanvas.gameObject.SetActive(isOpen);
+
+        for (int i = 0; i < itemsContainer.childCount; i++)
+            Destroy(itemsContainer.GetChild(i).gameObject);
     }
+
     public void OnSelectItem(Item item)
     {
         selectedItem = item;
@@ -45,27 +63,26 @@ public class Shop : MonoBehaviour
 
     public void PurchaseRequest()
     {
-        CheckAvailableGold(selectedItem.Price);
-        if(enoughGold)
+        var enoughGold = CheckAvailableGold(selectedItem.Price);
+        if (enoughGold)
         {
-            inventory.ItemsOnInventory.Add(selectedItem);
-            inventory.UpdateInventoryView();
+            inventory.AddItem(selectedItem);
+            inventory.RefreshGoldValue();
             Debug.Log("You Bought: " + selectedItem.ItemName);
         }
     }
 
-    private void CheckAvailableGold(int price)
+    private bool CheckAvailableGold(int price)
     {
-        if(price > inventory.Gold)
+        if (price <= inventory.Gold)
         {
-            enoughGold = false;
-            Debug.Log("You dont have enough gold to purchase this item");
-        }
-
-        if(price <= inventory.Gold)
-        {
-            enoughGold = true;
             inventory.Gold -= price;
+            return true;
+        }
+        else
+        {
+            Debug.Log("You dont have enough gold to purchase this item");
+            return false;
         }
     }
 }

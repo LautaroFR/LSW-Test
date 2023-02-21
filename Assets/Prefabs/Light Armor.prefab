@@ -151,7 +151,7 @@ MonoBehaviour:
   Type: 1
   ItemName: Light Armor
   ItemDescription: This is a Light Armor
-  Color: {r: 0, g: 0, b: 0, a: 0}
+  Color: {r: 0.024721561, g: 0.7924528, b: 0.002990329, a: 1}
   Icon: {fileID: 8413474933751750446}
 --- !u!1 &852689774442610334
 GameObject:
