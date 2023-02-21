@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7792342894748758555}
   - component: {fileID: 2377290788639975998}
   m_Layer: 5
-  m_Name: Item 1
+  m_Name: Light Armor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -147,13 +147,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d2baed173ed6504ebc42f03abd29390, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Price: 2222
+  Price: 2
   Type: 1
-  ItemName: arrrr
-  ItemDescription: armor
+  ItemName: Light Armor
+  ItemDescription: This is a Light Armor
   Color: {r: 0, g: 0, b: 0, a: 0}
-  inventory: {fileID: 0}
-  shop: {fileID: 0}
+  Icon: {fileID: 8413474933751750446}
 --- !u!1 &852689774442610334
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,7 +219,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: Light Armor
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -247,11 +246,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
+  m_fontSize: 5
   m_fontSizeBase: 24
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 5
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2

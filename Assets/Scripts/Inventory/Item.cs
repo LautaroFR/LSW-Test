@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Item : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class Item : MonoBehaviour
     public string ItemDescription;
 
     public Color Color;
+
+    public Image Icon;
 
 
     Inventory inventory;

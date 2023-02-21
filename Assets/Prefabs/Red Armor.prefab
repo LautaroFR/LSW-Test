@@ -44,7 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d2baed173ed6504ebc42f03abd29390, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 1
-  itemName: Red Armor
-  itemDescription: This is a red armor.
-  color: {r: 1, g: 0.07924521, b: 0.07924521, a: 1}
+  Price: 2
+  Type: 1
+  ItemName: Red Armor
+  ItemDescription: This is a red armor
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Icon: {fileID: 0}

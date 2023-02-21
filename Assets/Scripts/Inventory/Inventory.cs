@@ -10,11 +10,15 @@ public class Inventory : MonoBehaviour
 {
     public int Gold;
     
+    public GridLayoutGroup Grid;
+    
     public TextMeshProUGUI ItemNameTxt;
     public TextMeshProUGUI ItemDescrTxt;
     public TextMeshProUGUI GoldTxt;
 
-    public GridLayoutGroup Grid;
+    public Image ArmorImg;
+    public Image HelmetImg;
+    public Image WeaponImg;
 
     bool isOpen = false;
     
@@ -40,6 +44,7 @@ public class Inventory : MonoBehaviour
     {
         isOpen = true;
         gameObject.SetActive(isOpen);
+        UpdateInventoryView();
     }
 
     public void CloseInventory()
@@ -60,17 +65,33 @@ public class Inventory : MonoBehaviour
         {
             case ItemType.Weapon:
                 //if equiped is not null, return it to the list
+                if (equippedWeapon != null)
+                    ItemsOnInventory.Add(equippedWeapon);
+
                 equippedWeapon = selectedItem;
                 playerView.weaponView.color = equippedWeapon.Color;
+                WeaponImg.sprite = equippedWeapon.Icon.sprite;
+                ItemsOnInventory.Remove(equippedWeapon);
+                UpdateInventoryView();
                 //remove new equiped item from the list
                 break;
             case ItemType.Armor:
+                if (equippedArmor != null)
+                    ItemsOnInventory.Add(equippedArmor);
+
                 equippedArmor = selectedItem;
                 playerView.armorView.color = equippedArmor.Color;
+                ArmorImg.sprite = equippedArmor.Icon.sprite;
+                ItemsOnInventory.Remove(equippedArmor);
                 break;
             case ItemType.Helmet:
+                if (equippedHelmet != null)
+                    ItemsOnInventory.Add(equippedHelmet);
+
                 equippedHelmet = selectedItem;
                 playerView.helmetView.color = equippedHelmet.Color;
+                HelmetImg.sprite = equippedHelmet.Icon.sprite;
+                ItemsOnInventory.Remove(equippedHelmet);
                 break;
             default:
                 break;
@@ -85,9 +106,17 @@ public class Inventory : MonoBehaviour
 
     public void UpdateInventoryView()
     {
+        ClearInventory();
+        
         foreach (var item in ItemsOnInventory)
             Instantiate(item, Grid.transform);
 
         GoldTxt.text = Gold.ToString();
+    }
+
+    public void ClearInventory()
+    {
+        foreach (Transform item in Grid.transform)
+            GameObject.Destroy(item.gameObject);
     }
 }
