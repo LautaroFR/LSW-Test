@@ -43,6 +43,9 @@ public class Shop : MonoBehaviour
     {
         isOpen = false;
         shopCanvas.gameObject.SetActive(isOpen);
+        ItemNameTxt.text = "";
+        ItemDescrTxt.text = "";
+        ItemPriceTxt.text = "";
 
         for (int i = 0; i < itemsContainer.childCount; i++)
             Destroy(itemsContainer.GetChild(i).gameObject);

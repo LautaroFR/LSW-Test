@@ -27,6 +27,7 @@ public class Inventory : MonoBehaviour
     public void OpenInventory()
     {
         isOpen = true;
+        RefreshGoldValue();
         gameObject.SetActive(isOpen);
     }
 
@@ -34,6 +35,9 @@ public class Inventory : MonoBehaviour
     {
         isOpen = false;
         gameObject.SetActive(isOpen);
+        ItemNameTxt.text = "";
+        ItemDescrTxt.text = "";
+        GoldTxt.text = "";
     }
 
     public void OnSelectItem(Item item)
