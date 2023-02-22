@@ -1056,6 +1056,7 @@ MonoBehaviour:
   - {fileID: 2377290788639975998, guid: 9995d7129712c31458dc0b26261c89c2, type: 3}
   - {fileID: 2377290788639975998, guid: b3cfcfec05a6d974c8c88d473627c716, type: 3}
   - {fileID: 2377290788639975998, guid: 137bb7a9e00b1f241864afaf4b1f94d0, type: 3}
+  - {fileID: 2377290788639975998, guid: 1fb210289f6c8954783db64dc8cbcaa6, type: 3}
 --- !u!70 &478481300
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -2609,6 +2610,7 @@ MonoBehaviour:
   itemsContainer: {fileID: 32747269}
   shopContent:
   - {fileID: 2377290788639975998, guid: 455f5c718737f9d48a0b5353c2328b08, type: 3}
+  - {fileID: 2377290788639975998, guid: 7f3609b10cdfb104fabed3994ab5ec5b, type: 3}
 --- !u!114 &1319802667
 MonoBehaviour:
   m_ObjectHideFlags: 0

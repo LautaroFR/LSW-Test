@@ -57,11 +57,12 @@ public class Inventory : MonoBehaviour
 
         equippedItems.Add(selectedItem);
         var itemSlot = equipmentSlots.Where(x => x.slotType == selectedItem.Type).First();
-        itemSlot.playerViewSprite.color = selectedItem.Color;//cambiar esto, en lugar de cambiar el color, cambiar el sprite por la imagen del item.
-
+        itemSlot.playerViewSprite.sprite = selectedItem.Sprite;
+        
         //en lugar de destruir y cambiar el color, cambiar el parent por "itemSlot.inventorySlotImage" y ponerlo en la posicon "0". 
+
         Destroy(selectedItem.gameObject);
-        itemSlot.inventorySlotImage.color = selectedItem.Color;
+        itemSlot.inventorySlotImage.sprite = selectedItem.Sprite;
         //
 
         itemsOnInventory.Remove(selectedItem);

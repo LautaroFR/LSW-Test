@@ -17,6 +17,8 @@ public class Item : MonoBehaviour
 
     public Image Icon;
 
+    public Sprite Sprite;
+
     Inventory playerInventory;
     Shop shopSeller;
     bool inInventory = false;
