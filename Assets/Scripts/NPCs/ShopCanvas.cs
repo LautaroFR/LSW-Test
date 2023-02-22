@@ -5,13 +5,15 @@ using UnityEngine.UI;
 
 public class ShopCanvas : MonoBehaviour
 {
-    [SerializeField] Button selectBtn;
+    public Button SellBtn;
+
+    [SerializeField] Button purchaseBtn;
 
     Shop currentShop;
     public void SetShop(Shop shop)
     {
         currentShop = shop;
-        selectBtn.onClick.RemoveAllListeners();
-        selectBtn.onClick.AddListener(() => currentShop.PurchaseRequest());
+        purchaseBtn.onClick.RemoveAllListeners();
+        purchaseBtn.onClick.AddListener(() => currentShop.PurchaseRequest());
     }
 }

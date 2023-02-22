@@ -1,9 +1,7 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using TMPro;
+
 public class Shop : MonoBehaviour
 {
     public TextMeshProUGUI ItemNameTxt;
@@ -58,6 +56,7 @@ public class Shop : MonoBehaviour
     {
         selectedItem = item;
         UpdateDescription(item);
+        shopCanvas.SellBtn.interactable = false;
     }
 
     void UpdateDescription(Item item)

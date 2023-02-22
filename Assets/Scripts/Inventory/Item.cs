@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Item : MonoBehaviour
 {
     public bool IsEquipped;
+    public bool InInventory = false;
 
     public Color Color;
 
@@ -21,8 +19,6 @@ public class Item : MonoBehaviour
     public string ItemName;
     public string ItemDescription;
 
-    bool inInventory = false;
-
     Inventory playerInventory;
 
     RectTransform rectTransform;
@@ -36,12 +32,12 @@ public class Item : MonoBehaviour
     public void SetInventory(Inventory inventory)
     {
         playerInventory = inventory;
-        inInventory = true;
+        InInventory = true;
     }
 
     public void OnSelectItem()
     {
-        if (inInventory)
+        if (InInventory)
         {
             playerInventory.OnSelectItem(this);
             if (IsEquipped)

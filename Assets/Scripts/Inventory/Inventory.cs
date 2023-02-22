@@ -24,6 +24,10 @@ public class Inventory : MonoBehaviour
 
     bool isOpen = false;
 
+    ShopCanvas shopCanvas;
+
+    private void Start() => shopCanvas = FindObjectOfType<ShopCanvas>();
+
     public void OpenInventory()
     {
         isOpen = true;
@@ -44,6 +48,8 @@ public class Inventory : MonoBehaviour
     {
         selectedItem = item;
         UpdateDescription(item);
+
+        shopCanvas.SellBtn.interactable = true;
     }
 
     public void Unequip(Item item, ItemSlot slot)
@@ -73,6 +79,21 @@ public class Inventory : MonoBehaviour
         }
         else
             EquipSelectedItem(currentlyEquippedSlot, itemSlot);
+    }
+
+    public void Selling()
+    {
+        if (selectedItem.IsEquipped || !selectedItem.InInventory)
+            return;
+
+        if (!selectedItem.IsEquipped && selectedItem.InInventory)
+        {
+            selectedItem.InInventory = false;
+            itemsOnInventory.Remove(selectedItem);
+            Destroy(selectedItem.gameObject);
+            Gold += selectedItem.Price;
+            RefreshGoldValue();
+        }
     }
 
     public void EquipSelectedItem(IEnumerable<Item> currentlyEquippedSlot, ItemSlot itemSlot)
