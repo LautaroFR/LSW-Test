@@ -1,10 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using static UnityEditor.Progress;
 using System.Linq;
 
 public class Inventory : MonoBehaviour
@@ -16,12 +13,15 @@ public class Inventory : MonoBehaviour
     public TextMeshProUGUI ItemNameTxt;
     public TextMeshProUGUI ItemDescrTxt;
     public TextMeshProUGUI GoldTxt;
+    public TextMeshProUGUI EquipBtnTxt;
 
     [SerializeField] List<ItemSlot> equipmentSlots;
 
     Item selectedItem;
+
     List<Item> equippedItems = new();
     List<Item> itemsOnInventory = new();
+
     bool isOpen = false;
 
     public void OpenInventory()
@@ -46,28 +46,48 @@ public class Inventory : MonoBehaviour
         UpdateDescription(item);
     }
 
-    public void EquipSelectedItem()
+    public void Unequip(Item item, ItemSlot slot)
+    {
+        if (!item.IsEquipped)
+            return;
+
+        item.IsEquipped = false;
+        item.transform.SetParent(Grid.transform, false);
+        itemsOnInventory.Add(item);
+        equippedItems.Remove(item);
+        slot.playerViewSprite.sprite = null;
+    }
+
+    public void EquipBtn()
     {
         if (selectedItem == null)
             return;
 
-        var currentlyEquippedSlot = equippedItems.Where(x => x.Type == selectedItem.Type);
-        if (currentlyEquippedSlot.Any())
-            itemsOnInventory.Add(currentlyEquippedSlot.First());
-
-        equippedItems.Add(selectedItem);
         var itemSlot = equipmentSlots.Where(x => x.slotType == selectedItem.Type).First();
-        itemSlot.playerViewSprite.sprite = selectedItem.Sprite;
-        
-        //en lugar de destruir y cambiar el color, cambiar el parent por "itemSlot.inventorySlotImage" y ponerlo en la posicon "0". 
+        var currentlyEquippedSlot = equippedItems.Where(x => x.Type == selectedItem.Type);
 
-        Destroy(selectedItem.gameObject);
-        itemSlot.inventorySlotImage.sprite = selectedItem.Sprite;
-        //
-
-        itemsOnInventory.Remove(selectedItem);
+        if (selectedItem.IsEquipped)
+        {
+            Unequip(selectedItem, itemSlot);
+            return;
+        }
+        else
+            EquipSelectedItem(currentlyEquippedSlot, itemSlot);
     }
 
+    public void EquipSelectedItem(IEnumerable<Item> currentlyEquippedSlot, ItemSlot itemSlot)
+    {
+        if (currentlyEquippedSlot.Any())
+            Unequip(currentlyEquippedSlot.First(), itemSlot);
+            
+        equippedItems.Add(selectedItem);
+        selectedItem.IsEquipped = true;
+        itemSlot.playerViewSprite.sprite = selectedItem.Sprite;
+        selectedItem.transform.SetParent(itemSlot.inventorySlotImage.transform, false);
+        selectedItem.SetMiddleAnchor();
+        itemsOnInventory.Remove(selectedItem);
+    }
+   
     void UpdateDescription(Item item)
     {
         ItemNameTxt.text = item.ItemName;

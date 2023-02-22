@@ -7,7 +7,9 @@ public class ShopInteraction : MonoBehaviour, IInteractable
     public GameObject GetGameObject() => gameObject;
    
     bool isInteracting = false;
+
     Inventory playerInventory;
+
     Shop shopView;
 
     void Awake()
@@ -21,7 +23,6 @@ public class ShopInteraction : MonoBehaviour, IInteractable
         isInteracting = false;
         playerInventory.CloseInventory();
         shopView.CloseShop();
-        Debug.Log($"End interaction with {name}");
     }
 
     public void OnBeginInteraction()
@@ -31,9 +32,6 @@ public class ShopInteraction : MonoBehaviour, IInteractable
             isInteracting = true;
             playerInventory.OpenInventory();
             shopView.OpenShop();
-            Debug.Log($"Begin interaction with {name}");
         }
     }
-
-
 }

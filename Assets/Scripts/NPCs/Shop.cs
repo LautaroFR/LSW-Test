@@ -10,18 +10,21 @@ public class Shop : MonoBehaviour
     public TextMeshProUGUI ItemDescrTxt;
     public TextMeshProUGUI ItemPriceTxt;
 
-    [SerializeField] Transform itemsContainer;
-
     public List<Item> shopContent;
 
+    [SerializeField] Transform itemsContainer;
+
     bool isOpen = false;
+
     Item selectedItem;
+
     Inventory inventory;
+
     ShopCanvas shopCanvas;
 
     private void Awake()
     {
-        inventory = FindObjectOfType<Inventory>(true);
+        inventory  = FindObjectOfType<Inventory>(true);
         shopCanvas = FindObjectOfType<ShopCanvas>(true);
     }
 
@@ -43,7 +46,7 @@ public class Shop : MonoBehaviour
     {
         isOpen = false;
         shopCanvas.gameObject.SetActive(isOpen);
-        ItemNameTxt.text = "";
+        ItemNameTxt.text  = "";
         ItemDescrTxt.text = "";
         ItemPriceTxt.text = "";
 
@@ -59,7 +62,7 @@ public class Shop : MonoBehaviour
 
     void UpdateDescription(Item item)
     {
-        ItemNameTxt.text = item.ItemName;
+        ItemNameTxt.text  = item.ItemName;
         ItemDescrTxt.text = item.ItemDescription;
         ItemPriceTxt.text = item.Price.ToString();
     }
@@ -71,7 +74,6 @@ public class Shop : MonoBehaviour
         {
             inventory.AddItem(selectedItem);
             inventory.RefreshGoldValue();
-            Debug.Log("You Bought: " + selectedItem.ItemName);
         }
     }
 

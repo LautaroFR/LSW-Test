@@ -10,36 +10,33 @@ public class PlayerInputActions : MonoBehaviour
     [SerializeField] float interactingRange;
 
     InputAction moveAction;
-    Vector2 direction;
-    List<IInteractable> interactingObjects = new();
-    Inventory inventory;
 
+    Inventory inventory;
+    
+    List<IInteractable> interactingObjects = new();
+    
+    Vector2 direction;
+  
     void Awake()
     {
         moveAction = GetComponent<PlayerInput>().actions["Move"];
-        inventory = FindObjectOfType<Inventory>(true);
+        inventory  = FindObjectOfType<Inventory>(true);
     }
 
-    private void Update()
-    {
-        CheckCancelInteractions();
-    }
+    private void Update() => CheckCancelInteractions();
 
-    void FixedUpdate()
-    {
-        MovementUpdate();
-    }
+    void FixedUpdate() => MovementUpdate();
 
     void MovementUpdate()
     {
         direction = moveAction.ReadValue<Vector2>();
         transform.position += new Vector3(direction.x, direction.y, 0) * movementSpeed * Time.deltaTime;
+        var dir = direction.x != 0;
+        if (dir)
+            transform.rotation = Quaternion.Euler(0, direction.x > 0 ? 0 : 180, 0);
     }
 
-    public void TriggerInventory(InputAction.CallbackContext context)
-    {
-        inventory.OpenInventory();
-    }
+    public void TriggerInventory(InputAction.CallbackContext context) => inventory.OpenInventory();
 
     public void TriggerInteraction(InputAction.CallbackContext context)
     {

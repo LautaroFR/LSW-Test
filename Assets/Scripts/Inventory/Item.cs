@@ -6,22 +6,30 @@ using UnityEngine.UI;
 
 public class Item : MonoBehaviour
 {
+    public bool IsEquipped;
+
+    public Color Color;
+
     public int Price;
 
+    public Image Icon;
+
     public ItemType Type;
+    
+    public Sprite Sprite;
 
     public string ItemName;
     public string ItemDescription;
 
-    public Color Color;
-
-    public Image Icon;
-
-    public Sprite Sprite;
+    bool inInventory = false;
 
     Inventory playerInventory;
+
+    RectTransform rectTransform;
+
     Shop shopSeller;
-    bool inInventory = false;
+
+    void Awake() => rectTransform = GetComponent<RectTransform>();
 
     public void SetShop(Shop shop) => shopSeller = shop;
 
@@ -34,9 +42,24 @@ public class Item : MonoBehaviour
     public void OnSelectItem()
     {
         if (inInventory)
+        {
             playerInventory.OnSelectItem(this);
+            if (IsEquipped)
+                playerInventory.EquipBtnTxt.text = "Unequip";
+
+            else
+                playerInventory.EquipBtnTxt.text = "Equip";
+        }
         else
             shopSeller.OnSelectItem(this);
+    }
+
+    public void SetMiddleAnchor()
+    {
+        rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+        rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+        rectTransform.pivot     = new Vector2(0.5f, 0.5f);
+        transform.localPosition = Vector3.zero;
     }
 }
 
