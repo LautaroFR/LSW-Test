@@ -86,14 +86,12 @@ public class Inventory : MonoBehaviour
         if (selectedItem.IsEquipped || !selectedItem.InInventory)
             return;
 
-        if (!selectedItem.IsEquipped && selectedItem.InInventory)
-        {
-            selectedItem.InInventory = false;
-            itemsOnInventory.Remove(selectedItem);
-            Destroy(selectedItem.gameObject);
-            Gold += selectedItem.Price;
-            RefreshGoldValue();
-        }
+        selectedItem.InInventory = false;
+        itemsOnInventory.Remove(selectedItem);
+        Destroy(selectedItem.gameObject);
+        Gold += selectedItem.Price;
+        RefreshGoldValue();
+        shopCanvas.SellBtn.interactable = false;
     }
 
     public void EquipSelectedItem(IEnumerable<Item> currentlyEquippedSlot, ItemSlot itemSlot)
